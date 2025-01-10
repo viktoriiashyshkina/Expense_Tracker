@@ -27,7 +27,6 @@ public class Transaction {
   private String type;  // income or expense
   private LocalDateTime date;
 
-
   @ManyToOne
   @JoinColumn(name = "category_id")
   private Category category; // Foreign Key relationship to Category

@@ -1,27 +1,24 @@
 package com.backend.configuration;
 
-import com.backend.utills.JwtUtil;
+import com.backend.utills.JwtService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+  private final JwtService jwtService;
 
-  private final JwtUtil jwtUtil;
-
-  public JwtAuthenticationFilter(JwtUtil jwtUtil) {
-    this.jwtUtil = jwtUtil;
+  public JwtAuthenticationFilter(JwtService jwtService) {
+    this.jwtService = jwtService;
   }
-
-
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
@@ -35,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
       try {
         // Validate token and extract claims
-        Claims claims = jwtUtil.extractClaims(token);
+        Claims claims = jwtService.extractClaims(token);
 
         // Extract username (or subject) from claims
         String username = claims.getSubject();  // getSubject() returns the username
@@ -59,7 +56,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // Continue with the request processing
     filterChain.doFilter(request, response);
   }
+}
 
-  }
+
+
+
+
 
 
