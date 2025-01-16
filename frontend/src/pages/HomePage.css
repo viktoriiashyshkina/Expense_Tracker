@@ -1,115 +1,74 @@
-/* General styling */
-body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
-}
-
 .home-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.home-header {
-  background: linear-gradient(90deg, #007bff, #0056d6);
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
-}
-
-.main-title {
-  font-size: 2.5rem;
-  margin: 0;
-}
-
-.tagline {
-  font-size: 1.2rem;
-  margin: 10px 0 0;
-}
-
-.content {
-  flex: 1;
-  padding: 20px;
-  text-align: center;
-}
-
-.intro {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
-  max-width: 600px;
-}
-
-.section-title {
-  font-size: 1.8rem;
-  color: #0056d6;
-  margin-bottom: 10px;
-}
-
-.section-description {
-  font-size: 1rem;
-  color: #666;
-}
-
-.dashboard-info {
-  margin-top: 20px;
-}
-
-.financial-summary {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
-}
-
-.summary-item {
-  text-align: center;
-}
-
-.summary-title {
-  font-size: 1.2rem;
-  color: #007bff;
-  margin-bottom: 5px;
-}
-
-.summary-value {
-  font-size: 1.5rem;
-  color: #333;
-  font-weight: bold;
-}
-
-.action-button {
-  background: #0056d6;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.action-button:hover {
-  background: #003d99;
-}
-
-.login-message {
-  font-size: 1rem;
-  color: #d9534f;
-}
-
-.home-footer {
-  background: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px 0;
-  margin-top: auto;
-}
-
-.home-footer p {
-  margin: 0;
-  font-size: 0.9rem;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 1rem;
+    background-color: #f4f4f4;
+  }
+  
+  .home-header {
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .chart-section {
+    margin: 2rem 0;
+    width: 90%;
+  }
+  
+  .chart-container {
+    width: 100%;
+    max-width: 800px;
+    height: 400px; /* Ensure the chart has proper height */
+    margin: 0 auto;
+  }
+  
+  .auth-section {
+    margin: 2rem 0;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .login-button,
+  .signup-button {
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #1769aa;
+  }
+  
+  .signup-button {
+    background-color: #4caf50;
+  }
+  
+  .signup-button:hover {
+    background-color: #357a38;
+  }
+  
+  .home-footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #242424;
+    color: #fff;
+    width: 100%;
+  }
+  
+  

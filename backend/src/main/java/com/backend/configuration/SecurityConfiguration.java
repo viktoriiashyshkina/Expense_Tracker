@@ -1,12 +1,9 @@
 package com.backend.configuration;
 
-import com.backend.utills.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -30,8 +27,8 @@ public class SecurityConfiguration {
         .csrf().disable()
         .authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
-        .requestMatchers( "/api/home", "/api/signup", "/api/login").permitAll() // Public endpoints
-        .requestMatchers("/transactions").authenticated() // All other requests require authentication
+        .requestMatchers( "/api/home", "/api/signup", "/api/login", "/api/transactions/addTransaction", "/api/transactions/updateTransaction", "/api/categories").permitAll() // Public endpoints
+        .requestMatchers("/dashboard").authenticated() // All other requests require authentication
         )
         .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class); // Add JWT filter before default auth filter
 

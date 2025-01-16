@@ -1,7 +1,6 @@
-package com.backend.utills;
+package com.backend.configuration;
 
 import com.backend.entities.User;
-import com.backend.services.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

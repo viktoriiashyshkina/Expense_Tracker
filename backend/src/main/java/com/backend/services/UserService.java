@@ -3,10 +3,7 @@ package com.backend.services;
 
 import com.backend.entities.User;
 import com.backend.repositories.UserRepository;
-import com.backend.utills.JwtService;
-import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+import com.backend.configuration.JwtService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

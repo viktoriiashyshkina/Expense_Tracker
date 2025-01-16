@@ -1,7 +1,53 @@
-import React from 'react';
-import './HomePage.css'; // Import the updated CSS file for styling
+import React, { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import "./HomePage.css";
 
-const HomePage = ({ isAuthenticated, message }) => {
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const HomePage = () => {
+  const [chartData, setChartData] = useState({
+    labels: ["Income", "Expenses", "Net Balance"],
+    datasets: [
+      {
+        label: "Financial Data",
+        data: [5000, 2000, 3000], // Initial demo data
+        backgroundColor: ["#4caf50", "#f44336", "#2196f3"],
+      },
+    ],
+  });
+
+  const updateChartData = () => {
+    const randomIncome = Math.floor(Math.random() * 10000 + 5000);
+    const randomExpenses = Math.floor(Math.random() * 5000 + 1000);
+    const netBalance = randomIncome - randomExpenses;
+
+    setChartData({
+      labels: ["Income", "Expenses", "Net Balance"],
+      datasets: [
+        {
+          label: "Financial Data",
+          data: [randomIncome, randomExpenses, netBalance],
+          backgroundColor: ["#4caf50", "#f44336", "#2196f3"],
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
+    const interval = setInterval(updateChartData, 3000); // Update every 3 seconds
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="home-page">
       <header className="home-header">
@@ -10,40 +56,31 @@ const HomePage = ({ isAuthenticated, message }) => {
       </header>
 
       <main className="content">
-        <section className="intro">
-          {isAuthenticated ? (
-            <>
-              <h2 className="section-title">Your Dashboard</h2>
-              <div className="dashboard-info">
-                <p className="section-description">Here you can see your financial summary:</p>
-                <div className="financial-summary">
-                  <div className="summary-item">
-                    <h3 className="summary-title">Total Income:</h3>
-                    <p className="summary-value">$5,000</p>
-                  </div>
-                  <div className="summary-item">
-                    <h3 className="summary-title">Total Expenses:</h3>
-                    <p className="summary-value">$2,000</p>
-                  </div>
-                  <div className="summary-item">
-                    <h3 className="summary-title">Net Balance:</h3>
-                    <p className="summary-value">$3,000</p>
-                  </div>
-                </div>
-                <button
-                  className="action-button"
-                  onClick={() => alert('Redirecting to your transactions...')}
-                >
-                  View Transactions
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h2 className="section-title">Please Log In</h2>
-              <p className="login-message">{message || 'Access your financial dashboard by logging in.'}</p>
-            </>
-          )}
+        <section className="chart-section">
+          <h2 className="section-title">Your Financial Overview</h2>
+          <div className="chart-container">
+            <Bar
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+              }}
+            />
+          </div>
+        </section>
+        <section className="auth-section">
+          <button
+            className="login-button"
+            onClick={() => alert("Redirecting to login...")}
+          >
+            Login
+          </button>
+          <button
+            className="signup-button"
+            onClick={() => alert("Redirecting to signup...")}
+          >
+            Sign Up
+          </button>
         </section>
       </main>
 
@@ -55,5 +92,3 @@ const HomePage = ({ isAuthenticated, message }) => {
 };
 
 export default HomePage;
-
-
