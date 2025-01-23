@@ -3,6 +3,7 @@ package com.backend.controllers;
 import com.backend.entities.User;
 import com.backend.services.UserService;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,17 +39,38 @@ public class HomeController {
 
   //Handle user registration
   @PostMapping("/signup")
-  public ResponseEntity<String> signup(@RequestBody User user) {
-    userService.registerUser(user.getUsername(), user.getEmail(), user.getPassword());
-    return ResponseEntity.ok("User registered successfully");
+  public ResponseEntity<?> signup(@RequestBody User user) {
+    // Validate input data
+    if (user.getUsername() == null || user.getEmail() == null || user.getPassword() == null) {
+      return ResponseEntity.badRequest().body("All fields are required.");
+    }
+
+    // Register the user
+    userService.registerUser(user.getUsername(), user.getPassword(), user.getEmail());
+
+    // Optional: Automatically login the user after signup
+    String token = userService.loginUser(user.getUsername(), user.getPassword());
+    if (token != null) {
+      return ResponseEntity.ok(Map.of(
+          "message", "User registered successfully.",
+          "token", token
+      ));
+    }
+
+    // Default success response
+    return ResponseEntity.ok("User registered successfully.");
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(
+  public ResponseEntity<?> login(
       @RequestBody User user) {
-    userService.loginUser(user.getUsername(), user.getPassword());
-    return ResponseEntity.ok("User logged in successfully");
+    String token = userService.loginUser(user.getUsername(), user.getPassword());
+    if (token == null) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+    }
 
+    // Return the token in the response
+    return ResponseEntity.ok(Map.of("token", token));
   }
 
 

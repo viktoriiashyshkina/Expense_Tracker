@@ -1,5 +1,7 @@
 package com.backend.configuration;
 
+import com.backend.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,12 +13,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-  private final JwtService jwtService;
 
-  // Constructor-based injection for JwtUtil
-  public SecurityConfiguration(JwtService jwtService) {
-    this.jwtService = jwtService;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+  @Autowired
+  public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
   }
 
   @Bean
@@ -27,12 +29,14 @@ public class SecurityConfiguration {
         .csrf().disable()
         .authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
-        .requestMatchers( "/api/home", "/api/signup", "/api/login", "/api/transactions/addTransaction", "/api/transactions/updateTransaction", "/api/categories").permitAll() // Public endpoints
-        .requestMatchers("/dashboard").authenticated() // All other requests require authentication
+                .requestMatchers( "/api/home", "/api/signup", "/api/login", "/api/transactions/addTransaction", "/api/transactions/updateTransaction", "/api/categories").permitAll() // Public endpoints
+                .requestMatchers("/dashboard").authenticated() // All other requests require authentication
         )
-        .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class); // Add JWT filter before default auth filter
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before default auth filter
 
     return http.build();
   }
 
 }
+
+

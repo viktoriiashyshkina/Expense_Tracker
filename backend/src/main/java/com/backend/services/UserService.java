@@ -39,19 +39,19 @@ public class UserService implements UserDetailsService {
     );
   }
 
-  public void loginUser(String username, String password) {
+  public String loginUser(String username, String password) {
     // Check if the user exists
     User user = userRepository.findByUsername(username);
     if (user == null) {
-      return;  // User not found
+      return null;  // User not found
     }
 
     // Compare the password using the password encoder
     if (!passwordEncoder.matches(password, user.getPassword())) {
-      return;  // Password mismatch
+      return null;  // Password mismatch
     }
     // Generate JWT token
-   String token = jwtService.generateToken(user);
+   return jwtService.generateToken(user);
   }
 
   // Register a new user

@@ -83,10 +83,6 @@ const HomePage = () => {
           </button>
         </section>
       </main>
-
-      <footer className="home-footer">
-        <p>&copy; 2025 Expense Tracker. All rights reserved.</p>
-      </footer>
     </div>
   );
 };
