@@ -29,8 +29,8 @@ public class SecurityConfiguration {
         .csrf().disable()
         .authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
-                .requestMatchers( "/api/home", "/api/signup", "/api/login", "/api/transactions/addTransaction", "/api/transactions/updateTransaction", "/api/categories").permitAll() // Public endpoints
-                .requestMatchers("/dashboard").authenticated() // All other requests require authentication
+                .requestMatchers( "/api/home", "/api/signup", "/api/login").permitAll() // Public endpoints
+                .requestMatchers("/dashboard", "/api/transactions/addTransaction", "/api/transactions/updateTransaction", "/api/categories", "/api/transactions").authenticated() // All other requests require authentication
         )
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before default auth filter
 

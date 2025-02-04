@@ -15,13 +15,18 @@ function Register() {
     e.preventDefault();
     try {
       const response = await api.post("/signup", { username, email, password });
-      setMessage(response.data); // Success message from the backend
-      navigate("/dashboard")
-
+      setMessage(response.data.message); 
+  
+      const token = response.data.token; 
+      localStorage.setItem('jwtToken', token); 
+  
+      navigate("/dashboard"); 
     } catch (error) {
       setMessage("Sign-up failed! Please try again.");
     }
   };
+  
+  
 
   return (
     <div className="form-container">

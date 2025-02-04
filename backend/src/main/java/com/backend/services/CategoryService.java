@@ -18,8 +18,6 @@ public class CategoryService {
     if (category.getName() == null || category.getName().isEmpty()) {
       throw new IllegalArgumentException("Category name cannot be empty");
     }
-//    category.setName(category.getName());
-//    category.setDescription(category.getDescription());
     return categoryRepository.save(category);
   }
 
@@ -34,6 +32,7 @@ public class CategoryService {
   }
 
   public Category getCategory(String name) {
-    return categoryRepository.findByName(name).orElseThrow(() -> new IllegalArgumentException("Category not found"));
+    return categoryRepository.findByName(name).orElse(null);
   }
+
 }

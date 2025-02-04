@@ -1,5 +1,7 @@
 package com.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,11 @@ public class Category {
   public Long getId() {
     return id;
   }
+
+//  @JsonCreator
+//  public Category(@JsonProperty("name") String name) {
+//    this.name = name;
+//  }
 
   public void setId(Long id) {
     this.id = id;

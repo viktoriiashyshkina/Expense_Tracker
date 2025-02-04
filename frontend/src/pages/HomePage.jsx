@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import "./HomePage.css";
 
-// Register Chart.js components
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const HomePage = () => {
@@ -20,7 +20,7 @@ const HomePage = () => {
     datasets: [
       {
         label: "Financial Data",
-        data: [5000, 2000, 3000], // Initial demo data
+        data: [5000, 2000, 3000], 
         backgroundColor: ["#4caf50", "#f44336", "#2196f3"],
       },
     ],

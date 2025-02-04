@@ -61,6 +61,8 @@ public class HomeController {
     return ResponseEntity.ok("User registered successfully.");
   }
 
+
+
   @PostMapping("/login")
   public ResponseEntity<?> login(
       @RequestBody User user) {

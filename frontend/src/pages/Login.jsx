@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate is correctly imported
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
-import "./Login.css"; // Assuming you have styles
+import "./Login.css"; 
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // Replaces useHistory
+  const navigate = useNavigate(); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,11 +17,10 @@ function Login() {
         username,
         password,
       });
-
-      // Store JWT token
-      localStorage.setItem("authToken", response.data.token);
-
-      // Redirect to dashboard
+      const token = response.data.token; 
+      localStorage.setItem('jwtToken', token); 
+  
+  
       navigate("/dashboard");
     } catch (error) {
       setMessage("Login failed! Please check your credentials.");

@@ -2,6 +2,7 @@ package com.backend.services;
 
 import com.backend.entities.Category;
 import com.backend.entities.Transaction;
+import com.backend.repositories.CategoryRepository;
 import com.backend.repositories.TransactionRepository;
 import com.backend.utills.TransactionType;
 import java.util.List;
@@ -12,13 +13,15 @@ public class TransactionService {
 
   private final TransactionRepository transactionRepository;
   private final CategoryService categoryService;
+  private final CategoryRepository categoryRepository;
 
   private Double accountBalance = 0.0;
 
   public TransactionService(TransactionRepository transactionRepository,
-      CategoryService categoryService) {
+      CategoryService categoryService, CategoryRepository categoryRepository) {
     this.transactionRepository = transactionRepository;
     this.categoryService = categoryService;
+    this.categoryRepository = categoryRepository;
   }
 
   public List<Transaction> getAllTransactions() {
@@ -28,11 +31,16 @@ public class TransactionService {
   public Transaction addTransaction(Transaction transaction) {
     validateTransaction(transaction);
 
-    // Set the category of the transaction
-    Category category = categoryService.getCategory(transaction.getCategory().getName());
-    transaction.setCategory(category);
+    // Get or create category
+    Category category = categoryRepository.findByName(transaction.getCategory().getName())
+        .orElseGet(() -> {
+          Category newCategory = new Category();
+          newCategory.setName(transaction.getCategory().getName());
+          newCategory.setDescription(transaction.getCategory().getDescription());
+          return categoryService.addCategory(newCategory);
+        });
 
-    // Update the account balance based on the transaction type
+    transaction.setCategory(category);
     updateAccountBalance(transaction);
 
     return transactionRepository.save(transaction);
@@ -41,12 +49,46 @@ public class TransactionService {
   public Transaction updateTransaction(Transaction transaction) {
     validateTransaction(transaction);
 
-    // Update the account balance based on the transaction type (on update)
+    // Check if the transaction exists
+    Transaction existingTransaction = transactionRepository.findById(transaction.getId())
+        .orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
+
+    // Update category if changed
+    if (!existingTransaction.getCategory().getName().equals(transaction.getCategory())) {
+      Category category = getOrCreateCategory(transaction.getCategory().getName().toString());
+      transaction.setCategory(category);
+    }
+
+    // Update the account balance
     updateAccountBalance(transaction);
 
-    // Update transaction and return the updated one
-    return transactionRepository.save(transaction);
+    // Update the transaction and return the updated one
+    existingTransaction.setTitle(transaction.getTitle());
+    existingTransaction.setAmount(transaction.getAmount());
+    existingTransaction.setDate(transaction.getDate());
+    existingTransaction.setType(transaction.getType());
+    existingTransaction.setCategory(transaction.getCategory());
+
+    return transactionRepository.save(existingTransaction);
   }
+
+
+  // Helper method to check if category has changed
+  private boolean categoryChanged(Transaction existingTransaction, Transaction newTransaction) {
+    return !existingTransaction.getCategory().getName().equals(newTransaction.getCategory().getName());
+  }
+
+
+
+  private Category getOrCreateCategory(String categoryName) {
+    return categoryRepository.findByName(categoryName)
+        .orElseGet(() -> {
+          Category newCategory = new Category();
+          newCategory.setName(categoryName);
+          return categoryRepository.save(newCategory);
+        });
+  }
+
 
   public void deleteTransaction(Long id) {
     transactionRepository.deleteById(id);

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import Login from "./pages/Login"; // Assuming you have these components
-import Register from "./pages/Register"; // Assuming you have these components
+import Login from "./pages/Login"; 
+import Register from "./pages/Register"; 
 import Dashboard from "./pages/Dashboard"; 
+import TransactionPage from "./pages/TransactionPage";
+
+
 
 function App() {
   const [message, setMessage] = useState('Loading...');
@@ -15,16 +18,15 @@ function App() {
       ? { Authorization: `Bearer ${token}` }
       : {};
 
-    // Make the API request
+  
     axios.get('http://localhost:8080/api/home', { headers })
       .then(response => {
-        // If the response has a message, display it
+      
         setMessage(response.data.message || 'Welcome to the Home Page!');
       })
       .catch(error => {
         console.error('Error fetching data:', error);
         
-        // Check if the error has a response and display the response's message if available
         if (error.response) {
           setMessage(`Error: ${error.response.data.message || 'Unable to load content. Please try again.'}`);
         } else {
@@ -60,12 +62,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/transactions" element={<TransactionPage />} />
           </Routes>
         </main>
       </div>
     </Router>
-
-    
+  
   );
 }
 

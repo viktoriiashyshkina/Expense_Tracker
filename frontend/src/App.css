@@ -25,7 +25,7 @@ body {
 .nav-links {
   list-style: none;
   display: flex;
-  justify-content: flex-start; /* Align links to the left */
+  justify-content: flex-start; 
   margin: 0;
   padding: 0;
 }
@@ -49,10 +49,10 @@ body {
 }
 
 .content {
-  margin-top: 60px; /* To account for the fixed navbar height */
+  margin-top: 60px; 
   padding: 20px;
-  flex-grow: 1; /* Ensure content fills remaining space */
-  overflow-y: auto; /* Enable scrolling if content overflows */
+  flex-grow: 1;
+  overflow-y: auto; 
 }
   /* Footer section */
   .home-footer {
@@ -60,7 +60,7 @@ body {
     color: #0f0f0ffd;
     text-align: center;
     padding: 1rem 0;
-    width: 100%; /* Ensures the footer spans the full width */
+    width: 100%;
   }
 
 
